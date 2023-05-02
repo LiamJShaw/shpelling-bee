@@ -20,19 +20,22 @@ export function isWordInWordList(word) {
 }
 
 export function areLettersInGameLetters(mandatoryLetter, gameLetters, word) {
-
-    if (!(word.includes(mandatoryLetter))) { return false }
-
-    const upperCaseWord = word.toUpperCase();
+    if (!word.includes(mandatoryLetter)) {
+      console.log("Mandatory letter not included in word");
+      return false;
+    }
     
+    const upperCaseWord = word.toUpperCase();
     for (const letter of upperCaseWord) {
       if (!gameLetters.includes(letter)) {
+        console.log(`Letter ${letter} not included in game letters`);
         return false;
       }
     }
-  
+    
     return true;
-}
+  }
+  
 
 export function calculateScore(word) {
     return word.length;
