@@ -144,7 +144,7 @@ function generateShareString() {
 Score: ${score}
 Words Found: ${wordsFound}
 
-https://liamjshaw.github.io/#${gameLetters.join('')}
+https://liamjshaw.github.io/shpelling-bee/#${gameLetters.join('')}
 `;
 
   return shareText;
