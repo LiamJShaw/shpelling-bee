@@ -91,12 +91,14 @@ body {
     font-weight: bold;
     margin: 0 0.5rem;
     color: white;
-    order: 1; /* Set the default order for all game-letter elements */
   }
   
   .game-letter.mandatory{
     color: #FFC000;
-    order: 0; /* Change the order to position the mandatory element in the center */
+  }
+
+  .game-letter:active {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
   }
 
   .counter-container {
@@ -161,3 +163,17 @@ body {
 .backspace-input {
     margin-right: 0;
 }
+
+.message {
+    font-size: 1rem;
+    color: rgba(255, 0, 0, 0.75);
+    margin-top: 0.5rem;
+    min-height: 1.2rem;
+  }
+  
+.share-message {
+    color:#ffffff7e;
+    font-size: 0.8rem;
+    min-height: 1rem;
+}
+

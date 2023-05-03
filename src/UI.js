@@ -1,11 +1,24 @@
 export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
+    // Idea: Take in just the GLA and pop the mandy from it
+    // Shuffle the new GLA then run the following code
+    // Reshuffle can then just call this function
+
     // Get the game-letters div
     const gameLettersContainer = document.querySelector('.game-letters');
 
     // Clear the game-letters div
     gameLettersContainer.innerHTML = '';
     
+    // Add the first three letters
+    for (let i = 1; i < 4; i++) {
+        const letter = gameLetterArray[i];
+        const letterElement = document.createElement('span');
+        letterElement.classList.add('game-letter');
+        letterElement.textContent = letter.toUpperCase();
+        gameLettersContainer.appendChild(letterElement);
+    }
+
     // Add the mandatory letter
     const letterElement = document.createElement('span');
     letterElement.classList.add('game-letter');
@@ -13,8 +26,8 @@ export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
     letterElement.textContent = mandatoryChar.toUpperCase();
     gameLettersContainer.appendChild(letterElement);
 
-// Iterate through the gameLetterArray and create an element for each letter
-    for (let i = 1; i < gameLetterArray.length; i++) {
+    // Add the remaining letters
+    for (let i = 4; i < gameLetterArray.length; i++) {
         const letter = gameLetterArray[i];
         const letterElement = document.createElement('span');
         letterElement.classList.add('game-letter');
