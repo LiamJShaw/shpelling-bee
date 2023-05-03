@@ -22,15 +22,27 @@ import {
     getGuessedWordCount
 } from "./game";
 
+let gameLetters;
+let mandatoryLetter;
 
-// Generate 7 random letters, all different
-const gameLetters = generateRandomLetters();
+// Start a new game with random letters, or ones provided in URL
+function newGame() {
+    // Get the game letters from the URL
+    const urlFragment = window.location.hash.substring(1);
 
-// Designate the first one as the "yellow" and the rest as "grey"
-const mandatoryLetter = gameLetters[0];
+    if (urlFragment) {
+        const importedLetters = urlFragment.split('');
+        console.log("Imported letters: ", importedLetters);
 
-console.log("Mandatory: ", mandatoryLetter);
-console.log("Optional: ", gameLetters);
+        gameLetters = importedLetters.map(letter => letter.toUpperCase());
+    } else {
+        gameLetters = generateRandomLetters();
+    }
+
+    mandatoryLetter = gameLetters[0];
+}
+
+newGame();
 
 // User inputs word made up of letters
 const submitButton = document.querySelector('.submit-word');
@@ -65,8 +77,6 @@ document.querySelector('.share').addEventListener('click', () => {
         shareMessage.textContent = "";
     }, 3000);
 });
-
-
 
 function validateWord(word) {
 
@@ -134,7 +144,7 @@ function generateShareString() {
 Score: ${score}
 Words Found: ${wordsFound}
 
-https://liamjshaw.github.io/shpelling-bee
+https://yourwebsite.com/#${gameLetters.join('')}
 `;
 
   return shareText;
@@ -148,3 +158,5 @@ addGameLettersToScreen(gameLetters, mandatoryLetter);
 document.addEventListener('DOMContentLoaded', () => {
   addGameLetterListeners();
 });
+
+

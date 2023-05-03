@@ -40,8 +40,7 @@ export function mandatoryLetterIncluded(word, mandatoryLetter) {
 
     const upperCaseWord = word.toUpperCase();
 
-    if (!upperCaseWord.includes(mandatoryLetter)) {
-        console.log("Mandatory letter not included in word");
+    if (!upperCaseWord.includes(mandatoryLetter.toUpperCase())) {
         return false;
     }
 
@@ -54,7 +53,6 @@ export function areLettersInGameLetters(gameLetters, word) {
 
     for (const letter of upperCaseWord) {
       if (!gameLetters.includes(letter)) {
-        console.log(`Letter ${letter} not included in game letters`);
         return false;
       }
     }
@@ -62,6 +60,9 @@ export function areLettersInGameLetters(gameLetters, word) {
 }
 
 export function calculateScore(word) {
+
+    const upperCaseWord = word.toUpperCase();
+
     const letterScores = {
         A: 1,
         B: 3,
@@ -95,8 +96,8 @@ export function calculateScore(word) {
     let letterCount = {};
 
     // Count the frequency of each letter in the word
-    for (let i = 0; i < word.length; i++) {
-        const letter = word[i].toUpperCase();
+    for (let i = 0; i < upperCaseWord.length; i++) {
+        const letter = word[i];
         if (!letterCount[letter]) {
         letterCount[letter] = 0;
         }
@@ -133,8 +134,9 @@ export function isWordLengthValid(word) {
     return word.length >= 4;
 }
 
-export function isWordGuessed(word) {
-    return guessedWords.has(word);
+export function isWordGuessed(word) 
+{
+    return guessedWords.has(word.toUpperCase());
 }
 
 export function addWordToGuessedWordList(word) {
@@ -150,3 +152,34 @@ export function getGuessedWordCount() {
 
 }
 
+// The code below is for the idea of having a set of letters each day
+// export function newGame(){
+
+//     const today = new Date();
+
+//     console.log(today.getDay() + '' + today.getMonth() + '' + today.getFullYear());
+
+//     sha256(today).then( response => {
+//             console.log(response);
+//         }
+//     );
+    
+
+// }
+
+// async function sha256(message) {
+//     // Convert the message to a Uint8Array
+//     const encoder = new TextEncoder();
+//     const data = encoder.encode(message);
+  
+//     // Calculate the SHA-256 hash
+//     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  
+//     // Convert the hash to a hexadecimal string
+//     const hashArray = Array.from(new Uint8Array(hashBuffer));
+//     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  
+//     return hashHex;
+// }
+
+// newGame();
