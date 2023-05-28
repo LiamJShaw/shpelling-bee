@@ -1,4 +1,4 @@
-export const wordList = [
+const wordList = [
     "A",
     "AA",
     "AAA",
@@ -92583,21 +92583,37 @@ export const wordList = [
     "ZYMURGY"
     ];
 
-    // function countUniqueLetters(word) {
-    //     let uniqueLetters = new Set(word);
-    //     // console.log(`"${word}" has ${uniqueLetters.size} unique letters`);
-    //     return uniqueLetters.size
-    // }
+    function getValidWords(letterSet, mandatoryLetter) {
+        const validWords = [];
     
-    // let selectedWords = [];
+        // Convert the letterSet to a string for easier manipulation
+        const letterSetStr = Array.from(letterSet).join('');
     
-    // wordList.forEach(word => {
-    //     let uniqueLetters = countUniqueLetters(word);
+        // Check each word in the word list
+        for (let word of wordList) {
+            // Word must be at least 4 characters long and contain the mandatory letter
+            if (word.length < 4 || !word.includes(mandatoryLetter)) {
+                continue;
+            }
     
-    //     if (uniqueLetters == 7) {
-    //         console.log(word);
-    //         selectedWords.push(word);
-    //     }
-    // })
+            // Word must only contain letters that are in the letter set
+            let isValid = true;
+            for (let char of word) {
+                if (!letterSetStr.includes(char)) {
+                    isValid = false;
+                    break;
+                }
+            }
     
-    // console.log(selectedWords);
+            // If the word passed all the checks, add it to the list of valid words
+            if (isValid) {
+                validWords.push(word);
+            }
+        }
+
+        console.log(validWords);
+    
+        return validWords;
+    }
+
+    getValidWords(['E', 'U', 'P', 'S', 'R', 'C', 'I'], 'E');

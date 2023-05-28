@@ -19788,7 +19788,8 @@ function shuffleArray(array, seed) {
     }
 }
 
-export function getDailyLetterSet() {
+// export 
+function getDailyLetterSet() {
     const dailySeed = getMidnightUnixTime();
     const selectedPangram = selectPangram(dailySeed);
 
@@ -19811,3 +19812,5 @@ export function getDailyLetterSet() {
 
     return uniqueValues;
 }
+
+console.log(getDailyLetterSet());

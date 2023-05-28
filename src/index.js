@@ -89,8 +89,6 @@ submitButton.addEventListener('click', () => {
 // Add event listener for share button
 document.querySelector('.share').addEventListener('click', () => {
 
-    addWordToCorrectGuessList("test");
-
     const shareString = generateShareString();
 
     navigator.clipboard.writeText(shareString);
