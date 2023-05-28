@@ -63,6 +63,7 @@ export function calculateScore(word) {
 
     const upperCaseWord = word.toUpperCase();
 
+    // Scrabble
     const letterScores = {
         A: 1,
         B: 3,

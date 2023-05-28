@@ -1,9 +1,5 @@
 export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
-    // Idea: Take in just the GLA and pop the mandy from it
-    // Shuffle the new GLA then run the following code
-    // Reshuffle can then just call this function
-
     // Get the game-letters div
     const gameLettersContainer = document.querySelector('.game-letters');
 
@@ -38,10 +34,13 @@ export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
 export function addWordToCorrectGuessList(word) {
     const wordListElement = document.querySelector('.word-list');
-    const newWordElement = document.createElement('li');
+    const newWordElement = document.createElement('span');
 
     newWordElement.textContent = word;
     wordListElement.appendChild(newWordElement);
+
+    // Scroll to the bottom to keep the user's latest guesses visible
+    wordListElement.scrollTop = wordListElement.scrollHeight;
 }
 
 export function updateScore(score) {
@@ -55,8 +54,6 @@ export function updateScore(score) {
   }
   
 
-
-
 // Add event listeners for game letters
 export function addGameLetterListeners() {
     const gameLetters = document.querySelectorAll('.game-letter');
@@ -68,7 +65,6 @@ export function addGameLetterListeners() {
         });
     });
 }
-  
 
 // Back and clear
 const clearButton = document.querySelector('.clear-input');

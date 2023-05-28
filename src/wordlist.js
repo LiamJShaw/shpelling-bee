@@ -92582,3 +92582,22 @@ export const wordList = [
     "ZYGOTIC",
     "ZYMURGY"
     ];
+
+    // function countUniqueLetters(word) {
+    //     let uniqueLetters = new Set(word);
+    //     // console.log(`"${word}" has ${uniqueLetters.size} unique letters`);
+    //     return uniqueLetters.size
+    // }
+    
+    // let selectedWords = [];
+    
+    // wordList.forEach(word => {
+    //     let uniqueLetters = countUniqueLetters(word);
+    
+    //     if (uniqueLetters == 7) {
+    //         console.log(word);
+    //         selectedWords.push(word);
+    //     }
+    // })
+    
+    // console.log(selectedWords);

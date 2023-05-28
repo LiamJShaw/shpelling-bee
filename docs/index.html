@@ -8,39 +8,42 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <!-- <h1 class="game-title">Shpelling Bee</h1> -->
+    <!-- <h1 class="game-title">SHPELLING BEE</h1> -->
     <div class="game-container">
      
+
+        <div class="game-info">
+            <div class="counter-container">
+              <div class="counter score-counter">
+                <div class="counter-title">SCORE</div>
+                <div id="score">0</div>
+              </div>
+              <div class="counter word-counter">
+                <div class="counter-title">WORDS</div>
+                <div id="words-found">0</div>
+              </div>
+            </div>
+        </div>
+          
+        <ul class="word-list"></ul>
+
         <div class="game-letters">A B C D E F</div> 
       
-      <div class="honeycomb-container">
-        <div class="input-word"></div>
-        <div class="input-controls">
-            <button class="clear-input">Clear</button>
-            <button class="backspace-input">Backspace</button>
+        <div class="honeycomb-container">
+            <div class="input-word"></div>
+            <div class="input-controls">
+                <button class="clear-input">Clear</button>
+                <button class="backspace-input">Backspace</button>
+            </div>
+            
+            <button class="submit-word">Submit</button>
+
+            <div class="message"></div>
         </div>
-        
-        <button class="submit-word">Submit</button>
 
-        <div class="message"></div>
-
-      </div>
-
-      <div class="counter-container">
-        <div class="score-counter">
-          <span>Score:</span>
-          <span id="score">0</span>
-        </div>
-        <div class="word-counter">
-          <span>Words Found:</span>
-          <span id="words-found">0</span>
-        </div>
-      </div>
-
-      <ul class="word-list"></ul>
-
-      <button class="share">Share Result</button>
-      <p class="share-message"></p>
+        <button class="share">Share Result</button>
+        <p class="share-message"></p>
     </div>
+    
   </body>
 </html>

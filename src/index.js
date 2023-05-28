@@ -22,27 +22,51 @@ import {
     getGuessedWordCount
 } from "./game";
 
+import { getDailyLetterSet } from "./pangrams";
+
 let gameLetters;
 let mandatoryLetter;
 
 // Start a new game with random letters, or ones provided in URL
 function newGame() {
     // Get the game letters from the URL
-    const urlFragment = window.location.hash.substring(1);
+    const importedLetters = window.location.hash.substring(1);
 
-    if (urlFragment) {
-        const importedLetters = urlFragment.split('');
-        console.log("Imported letters: ", importedLetters);
-
-        gameLetters = importedLetters.map(letter => letter.toUpperCase());
+    if (importedLetters) {
+        newImportedGame(importedLetters);
     } else {
-        gameLetters = generateRandomLetters();
+        newDailyGame();
     }
+}
 
-    mandatoryLetter = gameLetters[0];
+function newDailyGame() {
+    gameLetters = getDailyLetterSet();
+    mandatoryLetter = gameLetters[0];    
+}
+
+// TODO: Add a button to play a new random game, 
+// as well as offering a random game to people who have ended the daily game.
+
+// function newRandomGame() {
+//     gameLetters = generateRandomLetters();
+//     mandatoryLetter = gameLetters[0];
+// }
+
+function newImportedGame(letters) {
+    const importedLetters = letters.split('');
+    console.log("Imported letters: ", importedLetters);
+
+    gameLetters = importedLetters.map(letter => letter.toUpperCase());
 }
 
 newGame();
+
+
+
+
+
+
+// TODO: Split the below out into modules:
 
 // User inputs word made up of letters
 const submitButton = document.querySelector('.submit-word');
@@ -64,6 +88,9 @@ submitButton.addEventListener('click', () => {
 
 // Add event listener for share button
 document.querySelector('.share').addEventListener('click', () => {
+
+    addWordToCorrectGuessList("test");
+
     const shareString = generateShareString();
 
     navigator.clipboard.writeText(shareString);
