@@ -48,11 +48,16 @@ export function updateScore(score) {
     scoreElement.textContent = score;
   }
   
-  export function updateWordsFoundCount(wordsFoundCount) {
-    const wordsFoundCountElement = document.getElementById('words-found');
-    wordsFoundCountElement.textContent = wordsFoundCount;
-  }
-  
+export function updateWordsFoundCount(wordsFoundCount) {
+  const wordsFoundCountElement = document.querySelector('.words-found-count');
+  wordsFoundCountElement.textContent = wordsFoundCount;
+}
+
+export function setWordsToFindCount(wordsToFindAmount) {
+  const wordsFoundCountElement = document.querySelector('.words-to-find-count');
+  wordsFoundCountElement.textContent = wordsToFindAmount;
+}
+
 
 // Add event listeners for game letters
 export function addGameLetterListeners() {

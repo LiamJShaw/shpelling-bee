@@ -4,7 +4,8 @@ import { addGameLettersToScreen,
     addWordToCorrectGuessList, 
     addGameLetterListeners, 
     updateScore, 
-    updateWordsFoundCount } from "./UI";
+    updateWordsFoundCount,
+    setWordsToFindCount } from "./UI";
 
 import {    
     generateRandomLetters, 
@@ -24,6 +25,8 @@ import {
 
 import { getDailyLetterSet } from "./pangrams";
 
+import { getValidWords } from './wordlist';
+
 let gameLetters;
 let mandatoryLetter;
 
@@ -37,6 +40,10 @@ function newGame() {
     } else {
         newDailyGame();
     }
+
+    let validWords = getValidWords(gameLetters, mandatoryLetter)
+
+    setWordsToFindCount(validWords.length);
 }
 
 function newDailyGame() {
@@ -57,7 +64,7 @@ function newImportedGame(letters) {
     console.log("Imported letters: ", importedLetters);
 
     gameLetters = importedLetters.map(letter => letter.toUpperCase());
-    mandatoryLetter = gameLetters[0]; 
+    mandatoryLetter = gameLetters[0];
 }
 
 newGame();
