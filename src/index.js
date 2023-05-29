@@ -57,6 +57,7 @@ function newImportedGame(letters) {
     console.log("Imported letters: ", importedLetters);
 
     gameLetters = importedLetters.map(letter => letter.toUpperCase());
+    mandatoryLetter = gameLetters[0]; 
 }
 
 newGame();
