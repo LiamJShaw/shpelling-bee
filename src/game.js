@@ -1,4 +1,5 @@
-import { wordList } from "./wordlist";
+import { wordList, getValidWords } from "./wordlist";
+import { getDailyLetterSet } from "./pangrams";
 
 let guessedWords = new Set();
 let score = 0;
@@ -60,76 +61,122 @@ export function areLettersInGameLetters(gameLetters, word) {
 }
 
 export function calculateScore(word) {
-
-    const upperCaseWord = word.toUpperCase();
-
-    // Scrabble
-    const letterScores = {
-        A: 1,
-        B: 3,
-        C: 3,
-        D: 2,
-        E: 1,
-        F: 4,
-        G: 2,
-        H: 4,
-        I: 1,
-        J: 8,
-        K: 5,
-        L: 1,
-        M: 3,
-        N: 1,
-        O: 1,
-        P: 3,
-        Q: 10,
-        R: 1,
-        S: 1,
-        T: 1,
-        U: 1,
-        V: 4,
-        W: 4,
-        X: 8,
-        Y: 4,
-        Z: 10
-    };
-
     let score = 0;
-    let letterCount = {};
 
-    // Count the frequency of each letter in the word
-    for (let i = 0; i < upperCaseWord.length; i++) {
-        const letter = word[i];
-        if (!letterCount[letter]) {
-        letterCount[letter] = 0;
-        }
-        letterCount[letter]++;
+    // 4 letter word: 1 point
+    // 5+ letter words: 1 point per letter
+
+    // Add points for word length
+    if (word.length < 4) {
+        score = 0;
+    } else if (word.length == 4) {
+        score = 1;
+    } else {
+        score = word.length;
     }
 
-    // Calculate the score for the word based on the letter scores and letter frequency
-    for (const letter in letterCount) {
-        if (letterScores[letter]) {
-        score += letterScores[letter] * letterCount[letter];
-        }
-    }
-
-    // Double the score if the word uses all 7 letters
-    if (Object.keys(letterCount).length === 7) {
+// Pangram: Double the score if the word uses all 7 letters
+    let letterSet = new Set([...word]);
+    
+    if (letterSet.size === 7) {
         score *= 2;
     }
 
-    // Add bonus points for word length
-    if (word.length >= 7) {
-        score += 7;
-    } else if (word.length >= 6) {
-        score += 3;
-    } else if (word.length >= 5) {
-        score += 2;
-    } else if (word.length >= 4) {
-        score += 1;
+    return score;
+}
+
+export function calculatePossibleScore() {
+
+    let dailyLetters = getDailyLetterSet();
+
+    let totalPossibleScore = 0;
+
+    // Get list of daily words
+    let dailyWords = getValidWords(dailyLetters, dailyLetters[0]);
+
+    // Score each word
+    dailyWords.forEach(word => {
+        totalPossibleScore += calculateScore(word);
+    });
+
+    return totalPossibleScore;
+}
+
+// export function calculateRank(score) {
+//     // Ranks:
+//         // Beginner	    0
+//         // Good Start	2
+//         // Moving Up	5
+//         // Good	        8
+//         // Solid	    15
+//         // Nice	        25
+//         // Great	    40
+//         // Amazing	    50
+//         // Genius	    70
+//         // Queen Bee	100     This isn't actually listed but can be attained
+
+//         // let scorePercentage = 
+
+//         // Need to know
+//         // Rank
+//         // Score to next rank
+//         // 
+
+//         return score;
+
+// }
+
+export function calculateRank(score) {
+    const rankPercentages = {
+        "Beginner": 0,
+        "Good Start": 2,
+        "Moving Up": 5,
+        "Good": 8,
+        "Solid": 15,
+        "Nice": 25,
+        "Great": 40,
+        "Amazing": 50,
+        "Genius": 70,
+        "Queen Bee": 100
+    };
+
+    const totalPossibleScore = calculatePossibleScore();
+    console.log("Total possible score:", totalPossibleScore);
+
+    let rankNames = Object.keys(rankPercentages);
+    let currentRank, scoreToNextRank;
+
+    for (let i = 0; i < rankNames.length; i++) {
+        let rankName = rankNames[i];
+        let rankPercentage = rankPercentages[rankName];
+        let rankScore = totalPossibleScore * (rankPercentage / 100);
+
+        console.log(`Score required for rank "${rankName}": ${Math.ceil(rankScore)}`);
+
+        if (score < rankScore && currentRank === undefined) {
+            currentRank = rankNames[i - 1];
+            scoreToNextRank = Math.ceil(rankScore - score);
+        }
     }
 
-    return score;
-}  
+    // If the user has achieved the highest possible rank
+    if (!currentRank) {
+        currentRank = rankNames[rankNames.length - 1];
+        scoreToNextRank = 0;
+    }
+
+    console.log("Current points:", score, "/", totalPossibleScore);
+    console.log("Current rank:", currentRank);
+    console.log("Points to next rank:", scoreToNextRank);
+
+    return {
+        currentRank,
+        scoreToNextRank
+    };
+}
+
+console.log(calculateRank(50));
+
 
 export function isWordLengthValid(word) {
     return word.length >= 4;
@@ -152,35 +199,3 @@ export function getGuessedWordCount() {
     return guessedWords.size;
 
 }
-
-// The code below is for the idea of having a set of letters each day
-// export function newGame(){
-
-//     const today = new Date();
-
-//     console.log(today.getDay() + '' + today.getMonth() + '' + today.getFullYear());
-
-//     sha256(today).then( response => {
-//             console.log(response);
-//         }
-//     );
-    
-
-// }
-
-// async function sha256(message) {
-//     // Convert the message to a Uint8Array
-//     const encoder = new TextEncoder();
-//     const data = encoder.encode(message);
-  
-//     // Calculate the SHA-256 hash
-//     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  
-//     // Convert the hash to a hexadecimal string
-//     const hashArray = Array.from(new Uint8Array(hashBuffer));
-//     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  
-//     return hashHex;
-// }
-
-// newGame();

@@ -92610,8 +92610,6 @@ export function getValidWords(letterSet, mandatoryLetter) {
             validWords.push(word);
         }
     }
-
-    console.log(validWords);
-
+    
     return validWords;
 }
