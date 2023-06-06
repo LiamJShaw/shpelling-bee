@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Mobile first approach and dark mode design */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c1c1c;
+      color: #ddd;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .game-container {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  
+    h1, h2 {
+      text-align: center;
+      color: #eee;
+    }
+  
+    .letters-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+  
+    .mandatory-letter, .other-letters {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .mandatory-letter p, .other-letters p {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #f39c12;
+    }
+  
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+  
+    button:hover {
+      background-color: #2980b9;
+    }
+  
+    #word-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+    }
+  
+    .words-submitted ul {
+      list-style-type: none;
+      padding: 0;
+      color: #ddd;
+    }
+  
+    .words-submitted li {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    .user-stats h2 {
+      text-align: center;
+      color: #eee;
+    }
+
+    #end-game {
+      background-color: #e74c3c;
+    }
+
+    #end-game:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Word Game</h1>
+    
+    <div class="letters-container">
+      <div class="mandatory-letter">
+        <h2>Mandatory Letter:</h2>
+        <p id="mandatory-letter"></p>
+      </div>
+      
+      <div class="other-letters">
+        <h2>Other Letters:</h2>
+        <p id="other-letters"></p>
+      </div>
+      
+      <button id="shuffle">Shuffle Letters</button>
+    </div>
+
+    <div class="input-container">
+      <input id="word-input" type="text" placeholder="Type your word here...">
+      <button id="backspace">Backspace</button>
+      <button id="clear">Clear Input</button>
+      <button id="submit-word">Submit Word</button>
+    </div>
+    
+    <div class="words-submitted">
+      <h2>Words Submitted:</h2>
+      <ul id="words-list"></ul>
+    </div>
+    
+    <div class="user-stats">
+      <h2>Your Score: <span id="score"></span></h2>
+      <h2>Your Rank: <span id="rank"></span></h2>
+      <h2>Points to Next Rank: <span id="points-to-next"></span></h2>
+    </div>
+    
+    <button id="end-game">End Game</button>
+  </div>
+</body>
+</html>

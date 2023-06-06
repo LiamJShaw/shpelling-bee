@@ -94,23 +94,6 @@ submitButton.addEventListener('click', () => {
     }
 });
 
-// Add event listener for share button
-document.querySelector('.share').addEventListener('click', () => {
-
-    const shareString = generateShareString();
-
-    navigator.clipboard.writeText(shareString);
-
-    // Show the share message
-    const shareMessage = document.querySelector('.share-message');
-    shareMessage.textContent = "Results copied to clipboard";
-
-    // Hide the share message after a certain duration (e.g., 3 seconds)
-    setTimeout(() => {
-        shareMessage.textContent = "";
-    }, 3000);
-});
-
 function validateWord(word) {
 
     // Clear the input box for the next guess
@@ -168,6 +151,167 @@ function validateWord(word) {
     }, 1500);
 }
 
+// Show the game letters onscreen
+addGameLettersToScreen(gameLetters, mandatoryLetter);
+
+// Add event listeners to the letters
+document.addEventListener('DOMContentLoaded', () => {
+  addGameLetterListeners();
+});
+
+
+// Shuffle
+const shuffleButton = document.querySelector('.shuffle');
+
+shuffleButton.addEventListener('click', () => {
+   
+    let shuffled = shuffleOptionalChars(gameLetters);
+    console.log(shuffled);
+
+    addGameLettersToScreen(shuffled, mandatoryLetter);
+});
+
+function shuffleOptionalChars(array) {
+    // Make a copy of the array starting from the second element
+    let copy = array.slice(1);
+
+    for (let i = copy.length - 1; i > 0; i--) {
+        // Generate a random index
+        let j = Math.floor(Math.random() * (i + 1));
+
+        // Swap elements
+        let temp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temp;
+    }
+
+    // Add the first element of the original array back to the start
+    copy.unshift(array[0]);
+
+    return copy;
+}
+
+
+// End Game and Share Result
+const endGameButton = document.querySelector('.end-game');
+
+endGameButton.addEventListener('click', () => {
+    const gameContainer = document.querySelector('.game-container');
+
+    gameContainer.innerHTML = `
+    <div class="counter-container">
+        <div class="counter score-counter">
+            <div class="counter-title">Final score</div>
+            <div id="final-score">0</div>
+        </div>
+
+        <div class="counter word-counter">
+            <div class="counter-title">Final words</div>
+            <div id="final-words">
+              <span class="words-found-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="endgame-word-lists">
+        <div class="words-found-list">
+            <h3>Words Found</h3>
+            <ul id="found-words">
+            </ul>
+        </div>
+
+        <div class="words-not-found-list">
+            <h3>Words Not Found</h3>
+            <ul id="not-found-words">
+            </ul>
+        </div>
+
+        <button class="share">Share Result</button>
+        <p class="share-message"></p>
+    </div>
+    `
+    const shareButton = document.querySelector('.share');
+
+    shareButton.addEventListener('click', () => {
+
+        const shareString = generateShareString();
+    
+        navigator.clipboard.writeText(shareString);
+    
+        // Show the share message
+        const shareMessage = document.querySelector('.share-message');
+        shareMessage.textContent = "Results copied to clipboard";
+    
+        // Hide the share message after a certain duration (e.g., 3 seconds)
+        setTimeout(() => {
+            shareMessage.textContent = "";
+        }, 3000);
+    });
+
+    let foundWords = addFoundWordsToEndScreen();
+    addUnfoundWordsToEndScreen(foundWords);
+
+    // Update score
+    const finalScore = document.querySelector('#final-score');
+    
+    finalScore.textContent = getScore();
+
+    // Update words found count
+    function updateWordsFoundCount() {
+        const wordsFoundCount = document.querySelector('.words-found-count');
+    
+        const foundWords = getGuessedWordList();
+    
+        // Set the count of found words
+        wordsFoundCount.textContent = `${foundWords.length} / ${getValidWords(gameLetters, mandatoryLetter).length}`;
+    }
+    
+    updateWordsFoundCount();
+
+});
+
+function addFoundWordsToEndScreen() {
+    const foundWordsContainer = document.querySelector('#found-words');
+
+    const foundWords = getGuessedWordList();
+
+    // Iterate over the array
+    for (let i = 0; i < foundWords.length; i++) {
+        // Create a new <li> element
+        const li = document.createElement("li");
+
+        // Set the content of the <li> to the current array element
+        li.textContent = foundWords[i];
+
+        // Append the <li> to the <ul>
+        foundWordsContainer.appendChild(li);
+    }
+
+    return foundWords;
+}
+
+function addUnfoundWordsToEndScreen(foundWords) {
+    const UnfoundWordsContainer = document.querySelector('#not-found-words');
+
+    let UnfoundWords = getValidWords(gameLetters, mandatoryLetter);
+
+    // Filter the UnfoundWords array to remove the words that are already found
+    UnfoundWords = UnfoundWords.filter(word => !foundWords.includes(word));
+
+    // Iterate over the array
+    for (let i = 0; i < UnfoundWords.length; i++) {
+        // Create a new <li> element
+        const li = document.createElement("li");
+
+        // Set the content of the <li> to the current array element
+        li.textContent = UnfoundWords[i];
+
+        // Append the <li> to the <ul>
+        UnfoundWordsContainer.appendChild(li);
+    }
+}
+
+
 function generateShareString() {
     const score = getScore();
     const wordsFound = getWordCount();
@@ -183,13 +327,3 @@ https://liamjshaw.github.io/shpelling-bee/#${gameLetters.join('')}
   return shareText;
 }
   
-
-// Show the game letters onscreen
-addGameLettersToScreen(gameLetters, mandatoryLetter);
-
-// Add event listeners to the letters
-document.addEventListener('DOMContentLoaded', () => {
-  addGameLetterListeners();
-});
-
-

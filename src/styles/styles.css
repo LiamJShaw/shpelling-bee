@@ -28,7 +28,10 @@ body {
   margin-bottom: 1rem;
 }
 
-input {
+input,
+.clear-input,
+.backspace-input,
+.shuffle {
   background-color: #2d2d2d;
   border: none;
   color: #f0f0f0;
@@ -37,6 +40,13 @@ input {
   width: 100%;
   margin-bottom: 1rem;
   box-sizing: border-box;
+  cursor: pointer;
+}
+
+.clear-input:hover,
+.backspace-input:hover,
+.shuffle:hover {
+  background-color: #555;
 }
 
 button {
@@ -71,8 +81,9 @@ button:hover {
   flex-wrap: wrap;
 }
 
-.word-list span {
-  text-align: left;
+.word-list span,
+.words-found-list li,
+.words-not-found-list li {
   margin: 0.5rem;
 }
 
@@ -98,95 +109,153 @@ button:hover {
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
-.game-info {
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
+.game-info,
 .counter-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .counter {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    margin: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 0 0.5rem;
 }
 
 .counter-title {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: rgba(240, 240, 240, 0.6);
-    margin-bottom: 0.5rem;
-  }
-  
-  .counter div {
-    font-family: 'Arial', sans-serif;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #878787;
-  }
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(240, 240, 240, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.counter div {
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #878787;
+}
 
 #score,
 #words-found {
-    color: white;
-  }
-  
-  .input-word {
-    user-select: none;
-    font-size: 2rem;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-  }
-  
-  .clear-input,
-  .backspace-input,
-  .shuffle {
-    background-color: #333;
-    color: #f0f0f0;
-    border: none;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    /* margin: 0.5rem; */
-    cursor: pointer;
+  color: white;
 }
 
-.clear-input:hover,
-.backspace-input:hover,
-.shuffle:hover {
-  background-color: #555;
+.input-word {
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin-bottom: 1rem;
+  border-radius: 5px;
 }
 
 .input-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 1rem;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  gap: 10px;
 }
 
-.message {
-    font-size: 1rem;
-    color: rgba(255, 0, 0, 0.75);
-    margin-top: 0.5rem;
-    min-height: 1.2rem;
-  }
-  
+.message,
 .share-message {
-    color:#ffffff7e;
-    font-size: 0.8rem;
-    min-height: 1rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  min-height: 1.2rem;
+  color: rgba(255, 0, 0, 0.75);
+}
+
+.share-message {
+  color: #ffffff7e;
+  font-size: 0.8rem;
+}
+
+/* Game end */
+
+.endgame-word-lists {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.words-found-list,
+.words-not-found-list {
+  background-color: #404040;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  margin: 0.5rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.words-found-list h3,
+.words-not-found-list h3 {
+  color: #FFD700;
+  margin-bottom: 1rem;
+}
+
+.words-found-list ul,
+.words-not-found-list ul {
+  border: 2px solid #ffffff48;
+  border-radius: 5px;
+  color: #f0f0f0;
+  padding: 1rem;
+}
+
+.words-found-list li,
+.words-not-found-list li {
+  margin-bottom: 0.5rem;
+}
+
+.button.share {
+  margin-top: 1rem;
+}
+
+.share-message {
+  color: #ffffff7e;
+  font-size: 0.8rem;
+  min-height: 1rem;
+  margin-top: 0.5rem;
+}
+
+#final-score,
+.words-found-count,
+.words-to-find-count {
+  color: #ffffff;
+}
+
+.counter.score-counter div,
+.counter.word-counter div {
+  color: #ffffff;
+}
+
+.words-found-list ul,
+.words-not-found-list ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  overflow-y: auto;
+  max-height: 150px;
+}
+
+.words-found-list li,
+.words-not-found-list li {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }

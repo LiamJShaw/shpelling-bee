@@ -102,30 +102,6 @@ export function calculatePossibleScore() {
     return totalPossibleScore;
 }
 
-// export function calculateRank(score) {
-//     // Ranks:
-//         // Beginner	    0
-//         // Good Start	2
-//         // Moving Up	5
-//         // Good	        8
-//         // Solid	    15
-//         // Nice	        25
-//         // Great	    40
-//         // Amazing	    50
-//         // Genius	    70
-//         // Queen Bee	100     This isn't actually listed but can be attained
-
-//         // let scorePercentage = 
-
-//         // Need to know
-//         // Rank
-//         // Score to next rank
-//         // 
-
-//         return score;
-
-// }
-
 export function calculateRank(score) {
     const rankPercentages = {
         "Beginner": 0,
