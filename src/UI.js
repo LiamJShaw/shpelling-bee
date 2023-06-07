@@ -1,3 +1,5 @@
+import { getScore, calculateRank } from "./game";
+
 export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
     // Get the game-letters div
@@ -41,23 +43,9 @@ export function addWordToCorrectGuessList(word) {
 
     // Scroll to the bottom to keep the user's latest guesses visible
     wordListElement.scrollTop = wordListElement.scrollHeight;
-}
 
-export function updateScore(score) {
-    const scoreElement = document.getElementById('score');
-    scoreElement.textContent = score;
-  }
-  
-export function updateWordsFoundCount(wordsFoundCount) {
-  const wordsFoundCountElement = document.querySelector('.words-found-count');
-  wordsFoundCountElement.textContent = wordsFoundCount;
+    updateUserScoreAndRank();
 }
-
-export function setWordsToFindCount(wordsToFindAmount) {
-  const wordsFoundCountElement = document.querySelector('.words-to-find-count');
-  wordsFoundCountElement.textContent = wordsToFindAmount;
-}
-
 
 // Add event listeners for game letters
 export function addGameLetterListeners() {
@@ -87,3 +75,43 @@ backspaceButton.addEventListener('click', () => {
   const currentInput = inputWord.textContent;
   inputWord.textContent = currentInput.substring(0, currentInput.length - 1);
 });
+
+
+// Score and rank board
+function setCircleState(circleNumber, score = '0') {
+  // Get all circles before active one
+  let previouslyActiveCircles = [];
+
+  for (let i = 0; i < circleNumber; i++) {
+    const circle = document.getElementById('circle' + i);
+    if (circle) {
+      previouslyActiveCircles.push(circle);
+    }
+  }
+
+  previouslyActiveCircles.forEach(circle => {
+    circle.classList.remove('active');
+    circle.classList.add('prev');
+  })
+
+  const activeCircle = document.getElementById('circle' + circleNumber);
+
+  activeCircle.classList.add('active');
+  activeCircle.innerText = score;
+}
+
+function setUserRank(rank) {
+  var rankElement = document.querySelector('.rank');
+  rankElement.innerText = rank;
+}
+
+export function updateUserScoreAndRank() {
+  const userScore = getScore();
+  const rankInfo = calculateRank(userScore);
+
+  setCircleState(rankInfo.circleNumber, userScore);
+  setUserRank(rankInfo.currentRank);
+
+  console.log(rankInfo);
+}
+

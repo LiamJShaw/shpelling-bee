@@ -17,6 +17,28 @@ export function getWordCount() {
     return guessedWords.size;
 }
 
+export function isWordLengthValid(word) {
+    return word.length >= 4;
+}
+
+export function isWordGuessed(word) 
+{
+    return guessedWords.has(word.toUpperCase());
+}
+
+export function addWordToGuessedWordList(word) {
+    guessedWords.add(word);    
+}
+
+export function getGuessedWordList() {
+    return Array.from(guessedWords);
+}
+
+export function getGuessedWordCount() {
+    return guessedWords.size;
+
+}
+
 export function generateRandomLetters() {
     // Alphabet plus extras of the most common letters, to make better letterSets
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZEEEAARRIIOOTTNNSSLC';
@@ -120,7 +142,7 @@ export function calculateRank(score) {
     console.log("Total possible score:", totalPossibleScore);
 
     let rankNames = Object.keys(rankPercentages);
-    let currentRank, scoreToNextRank;
+    let currentRank, scoreToNextRank, circleNumber;
 
     for (let i = 0; i < rankNames.length; i++) {
         let rankName = rankNames[i];
@@ -132,6 +154,7 @@ export function calculateRank(score) {
         if (score < rankScore && currentRank === undefined) {
             currentRank = rankNames[i - 1];
             scoreToNextRank = Math.ceil(rankScore - score);
+            circleNumber = i; // assign the circle number
         }
     }
 
@@ -139,39 +162,20 @@ export function calculateRank(score) {
     if (!currentRank) {
         currentRank = rankNames[rankNames.length - 1];
         scoreToNextRank = 0;
+        circleNumber = rankNames.length; // the last circle number is equal to the length of the rankNames array
     }
 
     console.log("Current points:", score, "/", totalPossibleScore);
     console.log("Current rank:", currentRank);
     console.log("Points to next rank:", scoreToNextRank);
+    console.log("Circle number:", circleNumber);
 
     return {
         currentRank,
-        scoreToNextRank
+        scoreToNextRank,
+        circleNumber
     };
 }
 
+
 console.log(calculateRank(50));
-
-
-export function isWordLengthValid(word) {
-    return word.length >= 4;
-}
-
-export function isWordGuessed(word) 
-{
-    return guessedWords.has(word.toUpperCase());
-}
-
-export function addWordToGuessedWordList(word) {
-    guessedWords.add(word);    
-}
-
-export function getGuessedWordList() {
-    return Array.from(guessedWords);
-}
-
-export function getGuessedWordCount() {
-    return guessedWords.size;
-
-}

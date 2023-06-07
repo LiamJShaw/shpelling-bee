@@ -1,12 +1,12 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
   background-color: #1c1c1c;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
-  margin: 2rem 0 0 0;
+  height: 100%;
+  margin: 2rem 0;
+  overflow-y: auto;
 }
 
 .game-container,
@@ -50,7 +50,7 @@ input,
 }
 
 button {
-  background-color: #FFD700;
+  background-color: #f7da21;
   border: none;
   color: #333;
   font-weight: bold;
@@ -102,7 +102,7 @@ button:hover {
 }
 
 .game-letter.mandatory{
-  color: #FFC000;
+  color: #f7da21;
 }
 
 .game-letter:active {
@@ -183,13 +183,17 @@ button:hover {
 }
 
 /* Game end */
+.rank-title {
+  color: #f7da21;
+  text-transform: uppercase;
+}
 
 .endgame-word-lists {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin: 0 0.5rem;
 }
 
 .words-found-list,
@@ -198,14 +202,14 @@ button:hover {
   border-radius: 10px;
   padding: 1rem;
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.5rem 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .words-found-list h3,
 .words-not-found-list h3 {
-  color: #FFD700;
-  margin-bottom: 1rem;
+  color: #f7da21;
+  margin-bottom: 0.5rem;
 }
 
 .words-found-list ul,
@@ -213,7 +217,7 @@ button:hover {
   border: 2px solid #ffffff48;
   border-radius: 5px;
   color: #f0f0f0;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .words-found-list li,
@@ -232,10 +236,15 @@ button:hover {
   margin-top: 0.5rem;
 }
 
-#final-score,
+.final-score,
 .words-found-count,
 .words-to-find-count {
   color: #ffffff;
+}
+
+.counter-container {
+  display: flex;
+  justify-content: space-around;
 }
 
 .counter.score-counter div,
@@ -258,4 +267,89 @@ button:hover {
 .words-not-found-list li {
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .counter-container .counter div {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* Score / Rank circles */
+.score-and-rank-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.rank {
+  margin-right: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.circle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  position: relative;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 2px solid darkgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 8px;
+  background-color: transparent;
+}
+
+.circle.active {
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  aspect-ratio: 1 / 1;
+  background-color: #f7da21;
+  border-color: #f7da21;
+}
+
+.circle.prev {
+  width: 10px;
+  height: 10px;
+  background-color: #f7da21;
+  border-color: #f7da21;
+  font-size: 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: darkgrey;
+  max-width: 50px;
+  align-self: center;
+}
+
+@media (max-width: 600px) {
+  .circle {
+    width: 10px;
+    height: 10px;
+    font-size: 6px;
+    aspect-ratio: 1 / 1;
+  }
+
+  .circle.active {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    aspect-ratio: 1 / 1;
+  }
 }

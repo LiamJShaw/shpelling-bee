@@ -2,13 +2,11 @@ import "./styles/styles.css";
 
 import { addGameLettersToScreen, 
     addWordToCorrectGuessList, 
-    addGameLetterListeners, 
-    updateScore, 
-    updateWordsFoundCount,
-    setWordsToFindCount } from "./UI";
+    addGameLetterListeners,
+    updateUserScoreAndRank,
+ } from "./UI";
 
-import {    
-    generateRandomLetters, 
+import { 
     isWordInWordList, 
     areLettersInGameLetters, 
     calculateScore, 
@@ -20,7 +18,7 @@ import {
     getWordCount,
     getScore,
     addToScore,
-    getGuessedWordCount
+    calculateRank
 } from "./game";
 
 import { getDailyLetterSet } from "./pangrams";
@@ -41,9 +39,7 @@ function newGame() {
         newDailyGame();
     }
 
-    let validWords = getValidWords(gameLetters, mandatoryLetter)
-
-    setWordsToFindCount(validWords.length);
+    updateUserScoreAndRank();
 }
 
 function newDailyGame() {
@@ -136,13 +132,10 @@ function validateWord(word) {
 
         const newScore = addToScore(calculateScore(word));
 
-        // Game data
-        updateScore(newScore);
         addWordToGuessedWordList(word);
 
         // Display to user
         addWordToCorrectGuessList(word);
-        updateWordsFoundCount(getGuessedWordCount());
     }
 
     // Hide the error message after a certain duration
@@ -169,6 +162,7 @@ shuffleButton.addEventListener('click', () => {
     console.log(shuffled);
 
     addGameLettersToScreen(shuffled, mandatoryLetter);
+    addGameLetterListeners();
 });
 
 function shuffleOptionalChars(array) {
@@ -199,29 +193,19 @@ endGameButton.addEventListener('click', () => {
     const gameContainer = document.querySelector('.game-container');
 
     gameContainer.innerHTML = `
-    <div class="counter-container">
-        <div class="counter score-counter">
-            <div class="counter-title">Final score</div>
-            <div id="final-score">0</div>
-        </div>
+    <h2 class='rank-title'>${calculateRank(getScore()).currentRank}</h2>
 
-        <div class="counter word-counter">
-            <div class="counter-title">Final words</div>
-            <div id="final-words">
-              <span class="words-found-count">0</span>
-            </div>
-        </div>
-    </div>
+    <h3 class='final-score'>Score: ${getScore()}</h3>
 
     <div class="endgame-word-lists">
         <div class="words-found-list">
-            <h3>Words Found</h3>
+            <h3>Words Found: ${getGuessedWordList().length}</h3>
             <ul id="found-words">
             </ul>
         </div>
 
         <div class="words-not-found-list">
-            <h3>Words Not Found</h3>
+            <h3>Words Not Found: ${getValidWords(gameLetters, mandatoryLetter).length - getGuessedWordList().length}</h3>
             <ul id="not-found-words">
             </ul>
         </div>
@@ -255,18 +239,6 @@ endGameButton.addEventListener('click', () => {
     const finalScore = document.querySelector('#final-score');
     
     finalScore.textContent = getScore();
-
-    // Update words found count
-    function updateWordsFoundCount() {
-        const wordsFoundCount = document.querySelector('.words-found-count');
-    
-        const foundWords = getGuessedWordList();
-    
-        // Set the count of found words
-        wordsFoundCount.textContent = `${foundWords.length} / ${getValidWords(gameLetters, mandatoryLetter).length}`;
-    }
-    
-    updateWordsFoundCount();
 
 });
 
