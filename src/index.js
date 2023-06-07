@@ -61,6 +61,8 @@ function initializeGame(importedLetters) {
     if (loadGameState(gameID)) {
         loadGame(loadGameState(gameID).wordList);
     }
+
+    updateUserScoreAndRank();
 }
 
 // Initialize a daily game
