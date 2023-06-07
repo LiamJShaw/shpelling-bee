@@ -33,6 +33,7 @@ let gameLetters;
 let mandatoryLetter;
 let gameID;
 
+// Load the words to the game
 function loadGame(words) {
     words.forEach(word => {
         addWordToCorrectGuessList(word);
@@ -41,44 +42,50 @@ function loadGame(words) {
     });
 }
 
-// Start a new game with random letters, or ones provided in URL
+// Start a new game
 function newGame() {
-    // Get the game letters from the URL
-    const importedLetters = window.location.hash.substring(1);
+    const gameIDFromURL = window.location.hash.substring(1);
 
-    if (importedLetters) {
-        newImportedGame(importedLetters);
-        gameID = importedLetters;
-        loadGame(loadGameState(gameID));
+    if (gameIDFromURL) {
+        initializeGame(gameIDFromURL);
     } else {
-
-        const importedGame = loadGameState(getDailyID());
-        // Check if daily game has been started
-        if (importedGame) {
-            const importedWordList = importedGame.wordList;
-            const gameEnded = importedGame.gameEnded;
-
-            loadGame(importedWordList);
-
-            newDailyGame();
-
-            if (gameEnded) {
-                endGame();
-                return;
-            }
-        }
-
-        newDailyGame();
+        initializeDailyGame();
     }
-
-    updateUserScoreAndRank();
 }
 
+// Initialize a game from the imported letters
+function initializeGame(importedLetters) {
+    newImportedGame(importedLetters);
+    gameID = importedLetters;
+
+    if (loadGameState(gameID)) {
+        loadGame(loadGameState(gameID).wordList);
+    }
+}
+
+// Initialize a daily game
+function initializeDailyGame() {
+    const dailyGame = loadGameState(getDailyID());
+
+    if (dailyGame) {
+        loadGame(dailyGame.wordList);
+        newDailyGame();
+
+        if (dailyGame.gameEnded) {
+            endGame();
+        }
+    } else {
+        newDailyGame();
+    }
+}
+
+// Initialize a new daily game
 function newDailyGame() {
     gameLetters = getDailyLetterSet();
     mandatoryLetter = gameLetters[0];
-
     gameID = getDailyID();
+
+    updateUserScoreAndRank();
 }
 
 // TODO: Add a button to play a new random game, 
@@ -97,6 +104,8 @@ function newImportedGame(letters) {
     mandatoryLetter = gameLetters[0];
 
     // Add in game loading here
+    console.log("Loaded letters:", letters);
+
 }
 
 newGame();
