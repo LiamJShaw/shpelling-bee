@@ -21,12 +21,25 @@ import {
     calculateRank
 } from "./game";
 
-import { getDailyLetterSet } from "./pangrams";
+import { getDailyLetterSet, getDailyID } from "./pangrams";
 
 import { getValidWords } from './wordlist';
 
+import { saveGameState, loadGameState } from "./localStorage";
+
+import ClipboardJS from 'clipboard';
+
 let gameLetters;
 let mandatoryLetter;
+let gameID;
+
+function loadGame(words) {
+    words.forEach(word => {
+        addWordToCorrectGuessList(word);
+        addWordToGuessedWordList(word);
+        addToScore(calculateScore(word));
+    });
+}
 
 // Start a new game with random letters, or ones provided in URL
 function newGame() {
@@ -35,7 +48,26 @@ function newGame() {
 
     if (importedLetters) {
         newImportedGame(importedLetters);
+        gameID = importedLetters;
+        loadGame(loadGameState(gameID));
     } else {
+
+        const importedGame = loadGameState(getDailyID());
+        // Check if daily game has been started
+        if (importedGame) {
+            const importedWordList = importedGame.wordList;
+            const gameEnded = importedGame.gameEnded;
+
+            loadGame(importedWordList);
+
+            newDailyGame();
+
+            if (gameEnded) {
+                endGame();
+                return;
+            }
+        }
+
         newDailyGame();
     }
 
@@ -44,7 +76,9 @@ function newGame() {
 
 function newDailyGame() {
     gameLetters = getDailyLetterSet();
-    mandatoryLetter = gameLetters[0];    
+    mandatoryLetter = gameLetters[0];
+
+    gameID = getDailyID();
 }
 
 // TODO: Add a button to play a new random game, 
@@ -61,13 +95,11 @@ function newImportedGame(letters) {
 
     gameLetters = importedLetters.map(letter => letter.toUpperCase());
     mandatoryLetter = gameLetters[0];
+
+    // Add in game loading here
 }
 
 newGame();
-
-
-
-
 
 
 // TODO: Split the below out into modules:
@@ -85,8 +117,11 @@ submitButton.addEventListener('click', () => {
     // Get the value from the input box
     const userGuess = inputWord.textContent;
 
+
     if (validateWord(userGuess)) {
         addWordToCorrectGuessList(userGuess.toUpperCase());
+
+        saveGameState(gameID, getGuessedWordList());
     }
 });
 
@@ -130,12 +165,11 @@ function validateWord(word) {
 
         message.textContent = "";
 
-        const newScore = addToScore(calculateScore(word));
+        addToScore(calculateScore(word));
 
         addWordToGuessedWordList(word);
 
-        // Display to user
-        addWordToCorrectGuessList(word);
+        return true;
     }
 
     // Hide the error message after a certain duration
@@ -159,7 +193,6 @@ const shuffleButton = document.querySelector('.shuffle');
 shuffleButton.addEventListener('click', () => {
    
     let shuffled = shuffleOptionalChars(gameLetters);
-    console.log(shuffled);
 
     addGameLettersToScreen(shuffled, mandatoryLetter);
     addGameLetterListeners();
@@ -188,8 +221,33 @@ function shuffleOptionalChars(array) {
 
 // End Game and Share Result
 const endGameButton = document.querySelector('.end-game');
+const confirmButtons = document.getElementById('confirmButtons');
+const confirmButton = document.getElementById('confirmButton');
+const cancelButton = document.getElementById('cancelButton');
 
 endGameButton.addEventListener('click', () => {
+    endGameButton.style.display = 'none';
+    confirmButtons.style.display = 'flex';
+});
+
+confirmButton.addEventListener('click', () => {
+    // Show end screen and store status in Local Storage
+    confirmButtons.style.display = 'none';
+    endGameButton.style.display = 'flex';
+
+    // Save final word list with gameEnded set to true
+    saveGameState(gameID, getGuessedWordList(), true);
+
+    endGame();
+});
+
+cancelButton.addEventListener('click', () => {
+    confirmButtons.style.display = 'none';
+    endGameButton.style.display = 'block';
+});
+
+
+function endGame() {
     const gameContainer = document.querySelector('.game-container');
 
     gameContainer.innerHTML = `
@@ -234,13 +292,7 @@ endGameButton.addEventListener('click', () => {
 
     let foundWords = addFoundWordsToEndScreen();
     addUnfoundWordsToEndScreen(foundWords);
-
-    // Update score
-    const finalScore = document.querySelector('#final-score');
-    
-    finalScore.textContent = getScore();
-
-});
+}
 
 function addFoundWordsToEndScreen() {
     const foundWordsContainer = document.querySelector('#found-words');
@@ -283,7 +335,12 @@ function addUnfoundWordsToEndScreen(foundWords) {
     }
 }
 
-
+// Initialise clipboard
+new ClipboardJS('.share', {
+  text: function() {
+      return generateShareString();
+  }
+});
 function generateShareString() {
     const score = getScore();
     const wordsFound = getWordCount();
@@ -298,4 +355,3 @@ https://liamjshaw.github.io/shpelling-bee/#${gameLetters.join('')}
 
   return shareText;
 }
-  

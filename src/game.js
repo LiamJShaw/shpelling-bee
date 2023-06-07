@@ -139,7 +139,6 @@ export function calculateRank(score) {
     };
 
     const totalPossibleScore = calculatePossibleScore();
-    console.log("Total possible score:", totalPossibleScore);
 
     let rankNames = Object.keys(rankPercentages);
     let currentRank, scoreToNextRank, circleNumber;
@@ -149,7 +148,7 @@ export function calculateRank(score) {
         let rankPercentage = rankPercentages[rankName];
         let rankScore = totalPossibleScore * (rankPercentage / 100);
 
-        console.log(`Score required for rank "${rankName}": ${Math.ceil(rankScore)}`);
+        // console.log(`Score required for rank "${rankName}": ${Math.ceil(rankScore)}`);
 
         if (score < rankScore && currentRank === undefined) {
             currentRank = rankNames[i - 1];
@@ -165,17 +164,9 @@ export function calculateRank(score) {
         circleNumber = rankNames.length; // the last circle number is equal to the length of the rankNames array
     }
 
-    console.log("Current points:", score, "/", totalPossibleScore);
-    console.log("Current rank:", currentRank);
-    console.log("Points to next rank:", scoreToNextRank);
-    console.log("Circle number:", circleNumber);
-
     return {
         currentRank,
         scoreToNextRank,
         circleNumber
     };
 }
-
-
-console.log(calculateRank(50));

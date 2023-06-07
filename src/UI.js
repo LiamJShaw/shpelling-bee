@@ -111,7 +111,5 @@ export function updateUserScoreAndRank() {
 
   setCircleState(rankInfo.circleNumber, userScore);
   setUserRank(rankInfo.currentRank);
-
-  console.log(rankInfo);
 }
 

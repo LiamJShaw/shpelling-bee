@@ -19689,3 +19689,9 @@ export function getDailyLetterSet() {
 
     return uniqueValues;
 }
+
+export function getDailyID() {
+    const dailySeed = getMidnightUnixTime();
+    
+    return selectPangram(dailySeed);
+}
