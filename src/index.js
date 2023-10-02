@@ -366,3 +366,7 @@ https://liamjshaw.github.io/shpelling-bee/#${gameLetters.join('')}
 
   return shareText;
 }
+
+
+
+// Info box
