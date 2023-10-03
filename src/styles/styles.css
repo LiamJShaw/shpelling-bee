@@ -24,6 +24,11 @@ body {
 }
 
 .honeycomb-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+
   background-color: #404040;
   margin-bottom: 1rem;
 }
@@ -38,7 +43,7 @@ input,
   padding: 8px 16px;
   border-radius: 4px;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -172,8 +177,8 @@ button:hover {
 .message,
 .share-message {
   font-size: 1rem;
-  margin-top: 0.5rem;
-  min-height: 1.2rem;
+  /* margin-top: 0.5rem; */
+  min-height: 1.5rem;
   color: rgba(255, 0, 0, 0.75);
 }
 
@@ -390,3 +395,37 @@ button:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s;
 }
+
+
+/* Hexagons */
+.hexagon-grid {
+  position: relative;
+  width: 240px;
+  height: 240px; 
+  margin: 10px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 80px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+  background-color: #ccc;
+  
+  font-size: larger;
+  font-weight: bold;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.center {
+  background-color: #f7da21;
+}
+
+.hexagon.center { top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); }
+.hexagon:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+.hexagon:nth-child(2) { top: 15%; left: 85%; transform: translateX(-50%); }
+.hexagon:nth-child(3) { top: 15%; left: 15%; transform: translateX(-50%); }
+.hexagon:nth-child(5) { bottom: 15%; left: 85%; transform: translateX(-50%); }
+.hexagon:nth-child(6) { bottom: 15%; left: 15%; transform: translateX(-50%); }
+.hexagon:nth-child(7) { bottom: 0; left: 50%; transform: translateX(-50%); }

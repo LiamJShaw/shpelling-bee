@@ -190,7 +190,7 @@ function validateWord(word) {
 }
 
 // Show the game letters onscreen
-addGameLettersToScreen(gameLetters, mandatoryLetter);
+// addGameLettersToScreen(gameLetters, mandatoryLetter);
 
 // Add event listeners to the letters
 document.addEventListener('DOMContentLoaded', () => {
@@ -366,7 +366,3 @@ https://liamjshaw.github.io/shpelling-bee/#${gameLetters.join('')}
 
   return shareText;
 }
-
-
-
-// Info box
