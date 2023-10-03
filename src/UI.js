@@ -2,8 +2,6 @@ import { getScore, calculateRank } from "./game";
 
 export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
-  console.log(gameLetterArray);
-
   // Get the game letters hexagons
   const hexagons = document.querySelectorAll('.hexagon');
 
@@ -12,8 +10,6 @@ export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
   const mandatoryHexagonText = mandatoryHexagon.querySelector("span");
   mandatoryHexagonText.textContent = mandatoryChar;
-
-  console.log(hexagons);
 
   for (let i = 1; i < gameLetterArray.length; i++) {
     const gameLetter = gameLetterArray[i];
@@ -48,17 +44,24 @@ export function oldAddGameLetterListeners() {
     });
 }
 
-// Add event listeners for game letters
-export function addGameLetterListeners() {
-  const hexagons = document.querySelectorAll('.hexagon-grid > *')
+// Named event handler for the hexagons
+function handleHexagonClick(event) {
   const inputWord = document.querySelector('.input-word');
+  inputWord.textContent += event.currentTarget.textContent;
+}
+
+export function addGameLetterListeners() {
+  const hexagons = document.querySelectorAll('.hexagon-grid > *');
 
   hexagons.forEach(letter => {
-      letter.addEventListener('click', () => {
-      inputWord.textContent += letter.textContent;
-      });
+      // Remove the existing listener (if any)
+      letter.removeEventListener('click', handleHexagonClick);
+
+      // Add the new listener
+      letter.addEventListener('click', handleHexagonClick);
   });
 }
+
 
 // Back and clear
 const clearButton = document.querySelector('.clear-input');
