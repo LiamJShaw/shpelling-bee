@@ -186,7 +186,7 @@ function validateWord(word) {
     // Hide the error message after a certain duration
     setTimeout(() => {
         message.textContent = '';
-    }, 1500);
+    }, 3000);
 }
 
 // Show the game letters onscreen
