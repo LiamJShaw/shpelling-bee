@@ -2,36 +2,25 @@ import { getScore, calculateRank } from "./game";
 
 export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
-    // Get the game-letters div
-    const gameLettersContainer = document.querySelector('.game-letters');
+  console.log(gameLetterArray);
 
-    // Clear the game-letters div
-    gameLettersContainer.innerHTML = '';
-    
-    // Add the first three letters
-    for (let i = 1; i < 4; i++) {
-        const letter = gameLetterArray[i];
-        const letterElement = document.createElement('span');
-        letterElement.classList.add('game-letter');
-        letterElement.textContent = letter.toUpperCase();
-        gameLettersContainer.appendChild(letterElement);
-    }
+  // Get the game letters hexagons
+  const hexagons = document.querySelectorAll('.hexagon');
 
-    // Add the mandatory letter
-    const letterElement = document.createElement('span');
-    letterElement.classList.add('game-letter');
-    letterElement.classList.add('mandatory');
-    letterElement.textContent = mandatoryChar.toUpperCase();
-    gameLettersContainer.appendChild(letterElement);
+  // Get the game letters hexagons
+  const mandatoryHexagon = document.querySelector('.center');
 
-    // Add the remaining letters
-    for (let i = 4; i < gameLetterArray.length; i++) {
-        const letter = gameLetterArray[i];
-        const letterElement = document.createElement('span');
-        letterElement.classList.add('game-letter');
-        letterElement.textContent = letter.toUpperCase();
-        gameLettersContainer.appendChild(letterElement);
-    }
+  const mandatoryHexagonText = mandatoryHexagon.querySelector("span");
+  mandatoryHexagonText.textContent = mandatoryChar;
+
+  console.log(hexagons);
+
+  for (let i = 1; i < gameLetterArray.length; i++) {
+    const gameLetter = gameLetterArray[i];
+    const hexagonText = hexagons[i-1].querySelector("span");
+    hexagonText.textContent = gameLetter;
+}
+
 }
 
 export function addWordToCorrectGuessList(word) {
@@ -48,7 +37,7 @@ export function addWordToCorrectGuessList(word) {
 }
 
 // Add event listeners for game letters
-export function addGameLetterListeners() {
+export function oldAddGameLetterListeners() {
     const gameLetters = document.querySelectorAll('.game-letter');
     const inputWord = document.querySelector('.input-word');
 
@@ -57,6 +46,18 @@ export function addGameLetterListeners() {
         inputWord.textContent += letter.textContent;
         });
     });
+}
+
+// Add event listeners for game letters
+export function addGameLetterListeners() {
+  const hexagons = document.querySelectorAll('.hexagon-grid > *')
+  const inputWord = document.querySelector('.input-word');
+
+  hexagons.forEach(letter => {
+      letter.addEventListener('click', () => {
+      inputWord.textContent += letter.textContent;
+      });
+  });
 }
 
 // Back and clear

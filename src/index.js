@@ -190,7 +190,7 @@ function validateWord(word) {
 }
 
 // Show the game letters onscreen
-// addGameLettersToScreen(gameLetters, mandatoryLetter);
+addGameLettersToScreen(gameLetters, mandatoryLetter);
 
 // Add event listeners to the letters
 document.addEventListener('DOMContentLoaded', () => {
