@@ -21,13 +21,26 @@ export function addGameLettersToScreen(gameLetterArray, mandatoryChar) {
 
 export function addWordToCorrectGuessList(word) {
     const wordListElement = document.querySelector('.word-list');
-    const newWordElement = document.createElement('span');
+    const newWordElement = document.createElement('li');
+
+
+    // TODO: Pangram function as this code ain't dry
+    let letterSet = new Set([...word]);
+    
+    if (letterSet.size === 7) {
+      newWordElement.classList.add("pangram")
+    }
+    //
 
     newWordElement.textContent = word;
     wordListElement.appendChild(newWordElement);
 
-    // Scroll to the bottom to keep the user's latest guesses visible
-    wordListElement.scrollTop = wordListElement.scrollHeight;
+    // Scroll to the right to keep the user's latest guesses visible
+    wordListElement.scrollLeft = wordListElement.scrollWidth;
+
+    console.log("Scroll right", wordListElement.scrollRight);
+    console.log("Scroll left", wordListElement.scrollleft);
+    console.log("Scroll width", wordListElement.scrollWidth);
 
     updateUserScoreAndRank();
 }

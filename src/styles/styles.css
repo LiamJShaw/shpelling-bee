@@ -73,32 +73,48 @@ button:hover {
   background-color: #FFC000;
 }
 
+
 .word-list {
   border: 2px solid #ffffff48;
   border-radius: 5px;
   margin-bottom: 1rem;
   padding: 1rem;
-  overflow-x: auto; /* Allow horizontal scrolling */
-  overflow-y: hidden; /* No vertical scrolling initially */
   color: #f0f0f0;
   list-style-type: none;
+  height: 40px; 
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   display: flex;
-  flex-wrap: nowrap; /* This will ensure it remains a single line */
-  white-space: nowrap; /* Ensures words don't wrap */
-  height: 40px; /* Set a fixed height */
 }
 
 .word-list li {
-  margin-right: 1rem;
+  margin: 0 1rem 0 0;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: #333;
+  display: inline-block;
+  transition: background-color 0.2s;
+  font-weight: bold;
 }
 
 .word-list.expanded {
-  flex-wrap: wrap; /* Allows for wrapping to multiple lines */
-  column-count: 2; /* This splits content into 2 columns */
-  height: 200px; /* Adjust this as needed */
-  overflow-y: auto; /* Allow vertical scrolling when expanded */
+  height: 300px;
+  overflow-y: auto;
+  white-space: normal;
+  display: block;
+  text-align: left; 
 }
 
+.word-list.expanded li {
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.word-list li.pangram {
+  color: #000000;
+  background-color: #f7da21;
+}
 
 .word-list span,
 .words-found-list li,
