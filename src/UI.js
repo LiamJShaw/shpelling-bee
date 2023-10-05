@@ -32,17 +32,8 @@ export function addWordToCorrectGuessList(word) {
     updateUserScoreAndRank();
 }
 
-// Add event listeners for game letters
-export function oldAddGameLetterListeners() {
-    const gameLetters = document.querySelectorAll('.game-letter');
-    const inputWord = document.querySelector('.input-word');
 
-    gameLetters.forEach(letter => {
-        letter.addEventListener('click', () => {
-        inputWord.textContent += letter.textContent;
-        });
-    });
-}
+// Add event listeners for game letters //
 
 // Named event handler for the hexagons
 function handleHexagonClick(event) {

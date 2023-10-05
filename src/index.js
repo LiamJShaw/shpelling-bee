@@ -33,6 +33,11 @@ let gameLetters;
 let mandatoryLetter;
 let gameID;
 
+document.querySelector('.word-list').addEventListener('click', function() {
+    this.classList.toggle('expanded');
+  });
+  
+
 // Load the words to the game
 function loadGame(words) {
     words.forEach(word => {
