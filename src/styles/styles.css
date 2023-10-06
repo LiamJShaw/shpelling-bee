@@ -207,9 +207,10 @@ button:hover {
 .message,
 .share-message {
   font-size: 1rem;
-  /* margin-top: 0.5rem; */
+  font-weight: 500;
   min-height: 1.5rem;
-  color: rgba(255, 0, 0, 0.75);
+  color: rgb(255, 40, 40);
+
 }
 
 .share-message {
