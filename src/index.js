@@ -33,10 +33,35 @@ let gameLetters;
 let mandatoryLetter;
 let gameID;
 
+
+
+// Expanding the word list pane
+let originalOrder = [];
+
+function toggleExpand() {
+    const wordList = document.querySelector('.word-list');
+    const words = Array.from(wordList.children);
+
+    if (!originalOrder.length) {
+        originalOrder = [...words];  // Store the original order on the first expansion
+    }
+
+    if (wordList.classList.contains('expanded')) {
+        // Switch to alphabetical order when expanded
+        const sortedWords = words.sort((a, b) => a.textContent.localeCompare(b.textContent));
+        sortedWords.forEach(word => wordList.appendChild(word));
+    } else {
+        // Restore original order when not expanded
+        originalOrder.forEach(word => wordList.appendChild(word));
+    }
+}
+
 document.querySelector('.word-list').addEventListener('click', function() {
+    toggleExpand();
     this.classList.toggle('expanded');
   });
   
+
 
 // Load the words to the game
 function loadGame(words) {
